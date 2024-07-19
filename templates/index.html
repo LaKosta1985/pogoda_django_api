@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}{{title}}{% endblock title %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="{% static "/css/bootstrap.css" %}" />
+	<meta name="description" content="погода"/>	
+</head>
+
+<body class="">
+<div class="container">
+    <div class="row">
+        <div class="">
+                <h3>Прогноз погоды, тестовое Api</h3>
+        </div>
+    <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+        <form method="post" action="{% url "index" %}"  enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            <div class="fields">
+                {{form.as_p}}
+            </div>
+            <br />
+                <input type="submit" value="Узнать погоду" class="btn btn-primary" />
+        </form>
+
+        <div>
+            {% if  data %}
+            <h3>Текущая погода в городе {{name}}</h3>
+        <table class="table table-bordered">
+          <tr>
+            <th>Температура, °C</th>
+            <th>Ощущаемая температура, °C</th>
+            <th>Скорость ветра, м/с</th>
+            <th>Давление, мм рт. ст</th>
+            <th>Влажность воздуха, %</th>
+          </tr>
+                <tr>
+                <td>{{data.temp}}</td>
+                <td>{{data.feels_like}}</td>
+                <td>{{data.wind_speed}}</td>
+                <td>{{data.pressure_mm}}</td>
+                <td>{{data.humidity}}</td>
+                </tr>
+        </table>
+            {% else %}
+            <h3>Нет данных.</h3>
+            {% endif %} 
+        </div>
+    </div>
+</div>
+</body>
+</html>
+	
